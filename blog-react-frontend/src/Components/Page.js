@@ -123,13 +123,14 @@ export default function Page() {
 
     const handleDuplicatePage = (pageTitle, pageBody, pageDate) => {
         Swal.fire({
-            title: 'Duplicate',
-            text: "Are you sure you want to dupicate?",
+            title: 'Nhân bản',
+            text: "Bạn có chắc nhân đôi bài này?",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#0069ff',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, duplicate it!'
+            cancelButtonText: 'Hủy',
+            confirmButtonText: 'Đúng, nhân bản nó!'
         }).then(async (result) => {
             if (result.isConfirmed) {
                 var body = { 'title': `${pageTitle} - Copy`, 'body': pageBody, 'date': pageDate }

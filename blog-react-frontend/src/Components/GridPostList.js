@@ -424,13 +424,14 @@ export default function GridPostList() {
         console.log("TAGS>>>", postTags)
         setCategory(postCategory.split(','))
         Swal.fire({
-            title: 'Nhân đôi',
-            text: "Bạn có chắc nhân đôi bài viết?",
+            title: 'Nhân bản',
+            text: "Bạn có chắc nhân đôi bài này?",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#0069ff',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Đồng ý!'
+            cancelButtonText: 'Hủy',
+            confirmButtonText: 'Đúng, nhân bản nó!'
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {

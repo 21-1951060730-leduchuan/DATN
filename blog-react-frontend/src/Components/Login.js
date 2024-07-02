@@ -41,11 +41,11 @@ export default function Login() {
         var error = false
         if (email.length === 0) {
             error = true
-            handleError('Please enter email', 'email')
+            handleError('Vui lòng nhập email', 'email')
         }
         if (password.length === 0) {
             error = true
-            handleError('Please enter password', 'password')
+            handleError('Vui lòng nhập mật khẩu', 'password')
         }
         return error
     }
@@ -59,9 +59,9 @@ export default function Login() {
                 localStorage.setItem('Admin', JSON.stringify(response.data))
                 Swal.fire({
                     icon: 'success',
-                    title: 'Login successful!',
-                    confirmButtonText: 'Got To Dashboard',
-                    denyButtonText: `Don't save`
+                    title: 'Đăng nhập thành công!',
+                    confirmButtonText: 'Vào trang Dashboard',
+                    denyButtonText: `Không lưu`
                 }).then((result) => {
                     if (result.isConfirmed) {
                         navigate('/dashboard')
@@ -71,7 +71,7 @@ export default function Login() {
             else {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Invalid credentails!'
+                    title: 'Thông tin không chính xác!'
                 })
             }
         }
@@ -111,22 +111,8 @@ export default function Login() {
 
 
     return (
-        <div className='root' style={{ background: 'red', height: '100vh' }}>
-            <Grid container spacing={5} style={{ margin: 0 }}>
-                <Grid item md={3} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 5%', background: 'white' }}>
-                    <Grid container spacing={3}>
-                        {/* <Grid item md={12}>
-                            <img src='https://tryboosty.com/images/boosty-logo.svg' style={{ width: '150px' }} />
-                        </Grid> */}
-                        <Grid item md={12} style={{ marginTop: '5%' }}>
-                            <Typography style={{ fontWeight: '600', fontSize: '30px' }}>Multiple auth <br /> methods included</Typography>
-                            <p style={{ marginTop: '6%', opacity: '70%', fontSize: '14px' }}>Choose between JSON Web Token, Firebase, AWS Amplify or Auth0. Regular login/register functionality is also available.</p>
-                            <Typography style={{ marginTop: '15%', fontWeight: '600', fontSize: '16px' }}>Want to switch auth methods?</Typography>
-                            <p style={{ marginTop: '2%', opacity: '70%', fontSize: '14px' }}>It only takes seconds. There is a documentation section showing how to do exactly that. Read docs</p>
-                        </Grid>
-                    </Grid>
-
-                </Grid>
+        <div className='root' style={{ height: '100vh' }}>
+            <Grid spacing={5} style={adminFormGrid}>
                 <Grid item md={9} style={adminFormGrid}>
                     <Grid container spacing={3} style={loginForm}>
                         <Grid item md={12} style={{ padding: 0 }}>
@@ -135,8 +121,8 @@ export default function Login() {
                                 fontWeight: '600',
                                 marginBottom: '0',
                                 textAlign: 'center'
-                            }}>Sign in</Typography>
-                            <p style={{ marginBottom: '4%', textAlign: 'center', opacity: '70%' }}>Fill in the fields below to sign into your account.</p><br />
+                            }}>Đăng nhập</Typography>
+                            <p style={{ marginBottom: '4%', textAlign: 'center', opacity: '70%' }}>Điền đầy đủ thông tin để đăng nhập vòa hệ thống.</p><br />
                         </Grid>
                         <Grid item md={12} style={{ padding: 0 }}>
                             <TextField
@@ -147,7 +133,7 @@ export default function Login() {
                         </Grid>
                         <Grid item md={12} style={{ padding: 0, marginTop: '5%' }}>
                             <FormControl fullWidth variant="outlined" className={classes.roundedTextField}>
-                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <InputLabel htmlFor="outlined-adornment-password">Mật khẩu</InputLabel>
                                 <OutlinedInput
                                     error={getErrors.password}
                                     onFocus={() => handleError('', 'password')}
@@ -165,17 +151,14 @@ export default function Login() {
                                             </IconButton>
                                         </InputAdornment>
                                     }
-                                    label="Password"
+                                    label="Mật khẩu"
                                 />
                             </FormControl>
                             <p style={{ color: '#FF0000', fontSize: '12.3px', marginLeft: '15px', marginTop: '0' }}>{getErrors.password}</p>
                         </Grid>
                         <Grid item md={8} style={{ padding: 0, marginTop: '3%' }}>
                             <Checkbox {...label} defaultChecked style={{ paddingLeft: 0 }} />
-                            <font style={{ fontSize: '15px', opacity: '80%' }}>I accept the <font style={{ color: '#004cef' }}>terms and conditions.</font></font>
-                        </Grid>
-                        <Grid item md={4} style={{ paddingTop: 0, display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
-                            <font style={{ fontWeight: '600', color: '#0069ff' }}>Lost Password?</font>
+                            <font style={{ fontSize: '15px', opacity: '80%' }}>Tôi đồng ý với <font style={{ color: '#004cef' }}>các điều khoản.</font></font>
                         </Grid>
                         <Grid item md={12} variant='contained' style={{ padding: 0, marginTop: '4%' }}>
                             <Button
@@ -187,7 +170,7 @@ export default function Login() {
                                     padding: '2% 0',
                                     fontSize: '18px',
                                     fontWeight: '600'
-                                }}>Sign in</Button>
+                                }}>Đăng nhập</Button>
                         </Grid>
                         {/* <Grid item md={8} style={{ padding: 0, marginTop: '6%', fontWeight: '600' }}>
                             <font style={{ fontSize: '15px', opacity: '80%' }}>Don't have an account <font style={{ color: '#004cef' }}>sign up here</font></font>

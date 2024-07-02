@@ -59,7 +59,7 @@ export default function Header(props) {
 
                     <Grid item xs={6} style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: 0, padding: 0 }}>
                         <div style={{ width: '100%' }}>
-                            <img src='https://www.tryboosty.com/images/boosty-logo.svg' style={{ width: '70%', cursor: 'pointer', marginLeft: '-10%' }} onClick={handleLogoclick} />
+                            <img src={LOGO} style={{ width: '70%', cursor: 'pointer', marginLeft: '-10%' }} onClick={handleLogoclick} />
                         </div>
                     </Grid>
 
