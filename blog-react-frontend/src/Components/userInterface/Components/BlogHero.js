@@ -14,16 +14,6 @@ export default function BlogHero(props) {
             bóng đá.
           </h2>
         </Grid>
-        <Grid item md={3}>
-          {/* <TextField fullWidth className={classes.roundedTextFieldSearch} label="Search" variant='outlined' style={{ borderColor: 'white', color: 'white' }} /> */}
-          <Button
-            variant="contained"
-            className="ui-global-btn"
-            endIcon={<ArrowRightAltIcon style={{ color: "white" }} />}
-          >
-            Đăng ký
-          </Button>
-        </Grid>
       </Grid>
     );
   };

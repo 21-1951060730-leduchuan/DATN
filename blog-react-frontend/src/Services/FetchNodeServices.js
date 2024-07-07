@@ -14,9 +14,9 @@ const postData = async (url, body, type) => {
   }
 };
 
-const getData = async (url, query) => {
+const getData = async (url, params) => {
   try {
-    var response = await axios.get(`${serverURL}/${url}`, { params: query });
+    var response = await axios.get(`${serverURL}/${url}`, { params: params });
     var data = response.data;
     return data;
   } catch (e) {

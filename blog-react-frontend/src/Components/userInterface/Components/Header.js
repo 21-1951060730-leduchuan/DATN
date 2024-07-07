@@ -22,11 +22,6 @@ export default function Header(props) {
         window.scrollTo(0, 0);
     }
 
-    const handleBtnClick = () => {
-        navigate('/pricing')
-        window.scrollTo(0, 0);
-    }
-
     return (
         <div style={{ overflowX: 'hidden', position: 'sticky', top: 0, zIndex: 999, background: 'white'}}>
             {matches_md ? <></> :
@@ -39,18 +34,6 @@ export default function Header(props) {
                     <Grid item md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <MenuComponent />
                     </Grid>
-
-
-                    <Grid item md={3} style={{ display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
-                        <Button onClick={handleBtnClick} variant='contained' className='globalButton' style={{
-                            background: '#0069FF',
-                            color: 'white',
-                            padding: '3% 6%',
-                            fontWeight: 500,
-                            fontFamily: 'Inter'
-                        }}>Bắt đầu</Button>
-                    </Grid>
-
                 </Grid>
             }
 

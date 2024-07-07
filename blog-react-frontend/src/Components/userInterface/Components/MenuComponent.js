@@ -8,9 +8,11 @@ import { AppBar, Box, Grid, Toolbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { getData, serverURL } from "../../../Services/FetchNodeServices";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function MenuComponent(props) {
   const theme = useTheme();
+  const navigation = useNavigate();
   const matches_sm = useMediaQuery(theme.breakpoints.down("sm"));
   const matches_md = useMediaQuery(theme.breakpoints.down("md"));
   const [category, setCategory] = useState([]);
@@ -33,68 +35,6 @@ export default function MenuComponent(props) {
   }, []);
 
   const servicesContent = () => {
-    const servicesIcons = [
-      {
-        icon: "https://startglobal.co/img/users-02.svg",
-        title: "Form U.S. company",
-      },
-      {
-        icon: "https://startglobal.co/img/icon-invoice.svg",
-        title: "Obtain EIN or ITIN",
-      },
-      {
-        icon: "https://startglobal.co/img/icon-book.svg",
-        title: "Open Stripe/PayPal",
-      },
-      {
-        icon: "https://startglobal.co/img/file-check-02.svg",
-        title: "Open Business Bank",
-      },
-      {
-        icon: "https://startglobal.co/img/calculator.svg",
-        title: "Create Amazon Account",
-      },
-      {
-        icon: "https://startglobal.co/img/file.svg",
-        title: "Website Development",
-      },
-      {
-        icon: "https://startglobal.co/img/icon-invoice.svg",
-        title: "Obtain EIN or ITIN",
-      },
-      {
-        icon: "https://startglobal.co/img/icon-book.svg",
-        title: "Open Stripe/PayPal",
-      },
-      {
-        icon: "https://startglobal.co/img/file-check-02.svg",
-        title: "Open Business Bank",
-      },
-      {
-        icon: "https://startglobal.co/img/users-02.svg",
-        title: "Form U.S. company",
-      },
-      {
-        icon: "https://startglobal.co/img/icon-invoice.svg",
-        title: "Obtain EIN or ITIN",
-      },
-      {
-        icon: "https://startglobal.co/img/icon-book.svg",
-        title: "Open Stripe/PayPal",
-      },
-      {
-        icon: "https://startglobal.co/img/file-check-02.svg",
-        title: "Open Business Bank",
-      },
-      {
-        icon: "https://startglobal.co/img/calculator.svg",
-        title: "Create Amazon Account",
-      },
-      {
-        icon: "https://startglobal.co/img/file.svg",
-        title: "Website Development",
-      },
-    ];
     return (
       <div>
         <Grid container spacing={1} style={{ padding: "3% 5%" }}>
@@ -113,11 +53,13 @@ export default function MenuComponent(props) {
           <Grid item md={4} style={{ padding: "1%" }}>
             {category.slice(0, 3).map((item, i) => {
               return (
-                <div
+                <Link
+                  to={`/filter/${item.categoryname}`}
                   style={{
                     display: "flex",
                     alignItems: "center",
                     margin: "10% 0",
+                    textDecoration: "none"
                   }}
                 >
                   <img
@@ -132,7 +74,7 @@ export default function MenuComponent(props) {
                   <p style={{ fontWeight: 500, color: "black", fontSize: 19 }}>
                     {item.categoryname}
                   </p>
-                </div>
+                </Link>
               );
             })}
           </Grid>
@@ -144,6 +86,7 @@ export default function MenuComponent(props) {
   const menuItems = [
     {
       title: "Trang chủ",
+      link: "/",
     },
     {
       title: "Thể loại",
@@ -168,7 +111,9 @@ export default function MenuComponent(props) {
             }}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
-            onClick={(event) => handleClick(event, item)}
+            onClick={(event) => {
+              item.link ? navigation(item.link) : handleClick(event, item);
+            }}
           >
             <div style={{ display: "flex", alignItems: "center" }}>
               <p style={{ fontSize: 18, margin: 0 }}>{item.title}</p>
@@ -188,12 +133,11 @@ export default function MenuComponent(props) {
   const staticMenuItems = [
     {
       title: "Về chúng tôi",
+      link: "/about",
     },
     {
       title: "Liên hệ",
-    },
-    {
-      title: "Tác giả",
+      link: "/contact",
     },
   ];
 
@@ -211,6 +155,7 @@ export default function MenuComponent(props) {
               padding: "1% 0",
               width: 130,
             }}
+            onClick={() => navigation(item.link)}
           >
             <div style={{ display: "flex", alignItems: "center" }}>
               <p style={{ fontSize: 18, margin: 0 }}>{item.title}</p>

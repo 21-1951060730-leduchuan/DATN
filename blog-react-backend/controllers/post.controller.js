@@ -37,19 +37,25 @@ module.exports = {
   },
 
   async displayPostList(req, res, next) {
-    await Posts.aggregate(
-      [
-        {
-          $lookup: {
-            from: "authors",
-            localField: "author",
-            foreignField: "_id",
-            as: "authorData",
-          },
+    const { category } = req.query;
+    const aggregateDefault = [
+      {
+        $lookup: {
+          from: "authors",
+          localField: "author",
+          foreignField: "_id",
+          as: "authorData",
         },
-      ],
-      { $unwind: "$authorData" }
-    )
+      },
+    ];
+
+    if (category) {
+      aggregateDefault.push({
+        $match: { category: category },
+      });
+    }
+
+    await Posts.aggregate(aggregateDefault, { $unwind: "$authorData" })
       .then((result) => {
         res.json({ status: true, postListData: result });
       })

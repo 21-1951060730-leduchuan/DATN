@@ -93,7 +93,7 @@ export default function GridPostList(props) {
               <div
                 key={index}
                 className="ui-post-card"
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", overflow: "hidden" }}
               >
                 <div className="ui-like-div">
                   <Checkbox

@@ -112,28 +112,6 @@ export default function Sidebar(props) {
   const sidebar = () => {
     return (
       <div>
-        <div
-          style={{
-            display: "flex",
-            boxShadow: "10px 10px 25px gainsboro",
-            height: 55,
-            padding: "0 30px",
-            borderRadius: 5,
-            alignItems: "center",
-            margin: "10% auto",
-          }}
-        >
-          <TextField
-            InputProps={{
-              disableUnderline: true,
-            }}
-            fullWidth
-            className={classes.roundedTextFieldSearch}
-            label="Tìm kiếm"
-            variant="standard"
-            style={{ borderColor: "white", color: "white" }}
-          />
-        </div>
         <div style={{ width: "100%", height: "auto", marginTop: "5%" }}>
           <h3
             style={{
