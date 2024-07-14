@@ -1,7 +1,6 @@
 * {
   padding: 0;
   margin: 0;
-  font-family: 'Poppins' !important
 }
 
 .root {
@@ -143,24 +142,23 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
   font-size: 17px;
 }
 
-.ui-blog-heading{
+.ui-blog-heading {
   font-size: 45px;
   font-weight: 600;
   line-height: 1.2em;
 }
 
-.ui-blog-hero{
+.ui-blog-hero {
   width: 100%;
   height: auto;
   padding: 7% 10%;
-  background: linear-gradient(to bottom, #ABCEFF, white);
+  background: linear-gradient(to bottom, #abceff, white);
   color: black;
   display: flex;
   align-items: center;
 }
 
-
-.ui-global-btn{
+.ui-global-btn {
   background-color: #0069ff !important;
   color: white !important;
   padding: 3% 10% !important;
@@ -169,13 +167,13 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
   margin-top: 5% !important;
 }
 
-.ui-blog-sidebar{
+.ui-blog-sidebar {
   width: 100%;
   height: auto;
   padding: 3% 4%;
 }
 
-.ui-category-div{
+.ui-category-div {
   margin-top: 10%;
 }
 
@@ -195,12 +193,12 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
   color: #0069ff;
 }
 
-.ui-social-sec{
+.ui-social-sec {
   margin-top: 10%;
 }
 
 .ui-social-div {
-  background-color: #F2F5F9;
+  background-color: #f2f5f9;
   border-radius: 5px;
   font-size: 17px;
   padding: 5% 8%;
@@ -221,12 +219,11 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
 .ui-footer-sec {
   width: 100%;
   margin: auto;
-  background-color: #1C2536;
+  background-color: #1c2536;
   color: white;
   padding: 6% 13%;
   border-top: 5px solid #0069ff;
 }
-
 
 .element-hover:hover {
   cursor: pointer !important;

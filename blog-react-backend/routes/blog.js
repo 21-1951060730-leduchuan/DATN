@@ -95,4 +95,6 @@ router.get("/get-comment", commentController.getComment);
 
 router.post("/handle-comment", commentController.handleComment);
 
+router.get("/search-blog", postController.searchBlog);
+
 module.exports = router;

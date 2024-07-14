@@ -1,3 +1,4 @@
+const { title } = require("process");
 var Posts = require("../models/postsModel");
 
 module.exports = {
@@ -56,6 +57,7 @@ module.exports = {
     }
 
     await Posts.aggregate(aggregateDefault, { $unwind: "$authorData" })
+
       .then((result) => {
         res.json({ status: true, postListData: result });
       })
@@ -153,5 +155,26 @@ module.exports = {
       .catch((e) => {
         res.json({ msg: "Error" });
       });
+  },
+
+  async searchBlog(req, res, next) {
+    const keyword = req.query.keyword;
+    try {
+      const titleReg = new RegExp(keyword, "i");
+
+      const results = await Posts.find({
+        title: titleReg,
+      });
+
+      return res.status(200).json({
+        success: true,
+        results,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Server not found!",
+      });
+    }
   },
 };

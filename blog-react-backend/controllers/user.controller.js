@@ -1,20 +1,76 @@
-
 var Admin = require("../models/adminModel");
 var Author = require("../models/authorModel");
-
+var bcrypt = require("bcrypt");
 module.exports = {
+  // async login(req, res) {
+  //   await Admin.find({
+  //     $and: [{ email: req.body.email }, { password: req.body.password }],
+  //   }).then((result) => {
+  //     if (result.length == 1) {
+  //       res.json({
+  //         status: true,
+  //         data: result,
+  //         message: "Logged in successfully!",
+  //       });
+  //     } else {
+  //       res.json({ status: false });
+  //     }
+  //   });
+  // },
+
   async login(req, res) {
-    await Admin
-      .find({
-        $and: [{ email: req.body.email }, { password: req.body.password }],
-      })
-      .then((result) => {
-        if (result.length == 1) {
-          res.json({ status: true, data: result });
-        } else {
-          res.json({ status: false });
-        }
+    try {
+      const user = await Admin.findOne({ email: req.body.email });
+      if (!user) {
+        return res.status(403).json({ message: "Invalid user not found	" });
+      }
+
+      const validPassword = await bcrypt.compare(
+        req.body.password,
+        user.password
+      );
+
+      if (!validPassword) {
+        return res.status(403).json({ message: "Invalid password	" });
+      }
+
+      return res.status(200).json({
+        status: true,
+        user,
+        message: "Logged in successfully!",
       });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: "Database Error!",
+      });
+    }
+  },
+
+  async registerUser(req, res) {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+      const user = new Admin({
+        ...req.body,
+        name: req.body.name,
+        email: req.body.email,
+        password: hashedPassword,
+      });
+
+      await user.save();
+      return res.status(200).json({
+        status: true,
+        results: user,
+        message: "User registered successfully!",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: false,
+        message: "Database Error!",
+      });
+    }
   },
 
   createAuth(req, res, next) {

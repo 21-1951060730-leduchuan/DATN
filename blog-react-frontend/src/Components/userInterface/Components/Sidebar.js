@@ -4,6 +4,7 @@ import {
   postData,
   getData,
   serverURL,
+  searchBlog,
 } from "../../../Services/FetchNodeServices";
 import React, { useRef } from "react";
 import Swal from "sweetalert2";
@@ -31,17 +32,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Sidebar(props) {
+export default function Sidebar({ setBlogs }) {
   const classes = useStyles();
-  const [getPostList, setPostList] = useState([]);
   const [getDatabaseCategory, setDatabaseCategory] = useState([]);
   const [getSubscriberName, setSubscriberName] = useState([]);
   const [getSubscriberEmail, setSubscriberEmail] = useState([]);
   const [getErrors, setErrors] = useState("");
-
+  const [search, setSearch] = useState("");
   const handleError = (error, label) => {
     setErrors((prev) => ({ ...prev, [label]: error }));
   };
+
+  const user = JSON.parse(localStorage.getItem("Admin"));
 
   const validation = () => {
     var error = false;
@@ -57,13 +59,7 @@ export default function Sidebar(props) {
     setDatabaseCategory(response.categoryData);
   };
 
-  const fetchPostList = async () => {
-    var response = await getData("blog/display-post-list");
-    setPostList(response.postListData);
-  };
-
   useEffect(function () {
-    fetchPostList();
     fetchCategory();
   }, []);
 
@@ -86,114 +82,138 @@ export default function Sidebar(props) {
     }
   };
 
-  const tagsArrayFunc = () => {
-    var tagsArray = [];
-    getPostList.forEach((item, i) => {
-      var tagArray = item.tags.split(",");
-      tagsArray.push(...tagArray);
-    });
-    const subsetOfTags = tagsArray.slice(0, 13);
-    const uniqueTags = [];
-
-    subsetOfTags.forEach((item) => {
-      if (!uniqueTags.includes(item)) {
-        uniqueTags.push(item);
-      }
-    });
-    return uniqueTags.map((item, i) => {
-      return (
-        <div className="ui-sidebar-category" key={i}>
-          {item}
-        </div>
-      );
-    });
+  const handleSearchBlog = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await searchBlog(search);
+      console.log(data?.results);
+      setBlogs(data?.results);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const sidebar = () => {
     return (
       <div>
-        <div style={{ width: "100%", height: "auto", marginTop: "5%" }}>
-          <h3
-            style={{
-              fontWeight: 600,
-              textAlign: "center",
-              fontSize: "25px",
-              width: "70%",
-              margin: "auto",
-            }}
-          >
-            Điều bạn thích đọc?
-          </h3>
-          <p
-            style={{
-              textAlign: "center",
-              fontSize: "17px",
-              width: "60%",
-              margin: "auto",
-              opacity: "70%",
-            }}
-          >
-            Đăng ký để nhận thông báo khi có bài báo mới.
-          </p>
-          <div
-            style={{
-              display: "flex",
-              boxShadow: "10px 10px 25px gainsboro",
-              height: 55,
-              padding: "0 30px",
-              borderRadius: 5,
-              alignItems: "center",
-              margin: "10% auto",
-            }}
-          >
-            <TextField
-              InputProps={{
-                disableUnderline: true,
+        <div style={{ width: "100%", height: "auto", marginTop: "" }}>
+          <form onSubmit={handleSearchBlog}>
+            <div
+              style={{
+                display: "flex",
+                boxShadow: "10px 10px 25px gainsboro",
+                height: 55,
+                padding: "0 30px",
+                borderRadius: 5,
+                alignItems: "center",
               }}
-              onChange={(event) => setSubscriberName(event.target.value)}
-              className={classes.roundedTextField}
-              label="Tên"
-              variant="standard"
-              fullWidth
-              style={{ margin: "5% 0" }}
-            />
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              boxShadow: "10px 10px 25px gainsboro",
-              height: 55,
-              padding: "0 30px",
-              borderRadius: 5,
-              alignItems: "center",
-              margin: "10% auto",
-            }}
-          >
-            <TextField
-              InputProps={{
-                disableUnderline: true,
-              }}
-              error={getErrors.getSubscriberEmail}
-              helperText={getErrors.getSubscriberEmail}
-              onFocus={() => handleError("", "getSubscriberEmail")}
-              onChange={(event) => setSubscriberEmail(event.target.value)}
-              className={classes.roundedTextField}
-              label="Email"
-              variant="standard"
-              fullWidth
-            />
-          </div>
-          <center>
-            <Button
-              onClick={handleAddSubscriber}
-              variant="contained"
-              className="ui-global-btn"
-              endIcon={<ArrowRightAltIcon style={{ color: "white" }} />}
             >
-              Đăng ký
-            </Button>
-          </center>
+              <TextField
+                onChange={(event) => setSearch(event.target.value)}
+                className={classes.roundedTextField}
+                placeholder="Tìm kiếm bài viết..."
+                variant="standard"
+                fullWidth
+                style={{ margin: "5% 0" }}
+              />
+            </div>
+            <div
+              style={{
+                margin: "10px auto",
+                textAlign: "center",
+                width: "100%",
+              }}
+            >
+              <Button type="submit" variant="contained">
+                Tìm kiếm
+              </Button>
+            </div>
+          </form>
+          {user && (
+            <div>
+              <h3
+                style={{
+                  fontWeight: 600,
+                  textAlign: "center",
+                  fontSize: "25px",
+                  width: "100%",
+                  margin: "10% auto",
+                }}
+              >
+                Điều bạn thích đọc?
+              </h3>
+              <p
+                style={{
+                  textAlign: "center",
+                  fontSize: "17px",
+                  width: "100%",
+                  margin: "auto",
+                  opacity: "70%",
+                }}
+              >
+                Đăng ký để nhận thông báo khi có bài báo mới.
+              </p>
+              <div
+                style={{
+                  display: "flex",
+                  boxShadow: "10px 10px 25px gainsboro",
+                  height: 55,
+                  padding: "0 30px",
+                  borderRadius: 5,
+                  alignItems: "center",
+                  margin: "10% auto",
+                }}
+              >
+                <TextField
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
+                  onChange={(event) => setSubscriberName(event.target.value)}
+                  className={classes.roundedTextField}
+                  label="Tên"
+                  variant="standard"
+                  fullWidth
+                  style={{ margin: "5% 0" }}
+                />
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  boxShadow: "10px 10px 25px gainsboro",
+                  height: 55,
+                  padding: "0 30px",
+                  borderRadius: 5,
+                  alignItems: "center",
+                  margin: "10% auto",
+                }}
+              >
+                <TextField
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
+                  error={getErrors.getSubscriberEmail}
+                  helperText={getErrors.getSubscriberEmail}
+                  onFocus={() => handleError("", "getSubscriberEmail")}
+                  onChange={(event) => setSubscriberEmail(event.target.value)}
+                  className={classes.roundedTextField}
+                  label="Email"
+                  variant="standard"
+                  fullWidth
+                />
+              </div>
+              <center>
+                <Button
+                  onClick={handleAddSubscriber}
+                  variant="contained"
+                  className="ui-global-btn"
+                  endIcon={<ArrowRightAltIcon style={{ color: "white" }} />}
+                >
+                  Đăng ký
+                </Button>
+              </center>
+            </div>
+          )}
         </div>
 
         <div className="ui-category-div">

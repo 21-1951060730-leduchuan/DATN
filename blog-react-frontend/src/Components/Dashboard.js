@@ -52,9 +52,14 @@ export default function Dashboard() {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
+    if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+      localStorage.removeItem("Admin");
+      navigate("/login");
+    }
+  };
+  const handleClose2 = () => {
     setAnchorEl(null);
   };
-
   useEffect(() => {
     setSelectedItemIndex(0); // 0 is the index of the dashboard item
   }, []);
@@ -135,7 +140,7 @@ export default function Dashboard() {
               }}
             >
               <img
-                src={`${serverURL}/images/${admin[0].picture}`}
+                src={`${serverURL}/images/${admin[0]?.picture}` || ""}
                 style={{
                   width: 50,
                   height: 50,
@@ -152,7 +157,7 @@ export default function Dashboard() {
                     margin: 0,
                   }}
                 >
-                  {admin[0].name}
+                  {admin[0]?.name}
                 </div>
                 <div
                   style={{
@@ -163,7 +168,7 @@ export default function Dashboard() {
                     margin: 0,
                   }}
                 >
-                  {admin[0].email}
+                  {admin[0]?.email}
                 </div>
               </div>
             </Grid>
@@ -178,6 +183,7 @@ export default function Dashboard() {
 
                   return (
                     <ListItemButton
+                      key={i}
                       onClick={() => handleListItem(i)}
                       style={{
                         margin: "1% 0",
@@ -194,7 +200,7 @@ export default function Dashboard() {
                           opacity: selectedItemIndex === i ? "100%" : "75%",
                         }}
                       >
-                        {item.icon}
+                        {item?.icon}
                       </ListItemIcon>
                       <p
                         style={{
@@ -203,7 +209,7 @@ export default function Dashboard() {
                           opacity: selectedItemIndex === i ? "100%" : "75%",
                         }}
                       >
-                        {item.title}
+                        {item?.title}
                       </p>
                     </ListItemButton>
                   );
@@ -223,7 +229,6 @@ export default function Dashboard() {
               style={{ background: "white", zIndex: 99 }}
             >
               <Grid item md={10}>
-                {/* <TextField variant="outlined" fullWidth className={classes.roundedTextField} label="Search" /> */}
                 <h3
                   style={{
                     fontWeight: "600",
@@ -232,7 +237,7 @@ export default function Dashboard() {
                     marginLeft: "3%",
                   }}
                 >
-                  Xin chào, Chào mừng quay lại {admin[0].name} 👋
+                  Xin chào, Chào mừng quay lại {admin[0]?.name} 👋
                 </h3>
               </Grid>
               <Grid
@@ -248,8 +253,8 @@ export default function Dashboard() {
                   anchorEl={anchorEl}
                   id="account-menu"
                   open={open}
-                  onClose={handleClose}
-                  onClick={handleClose}
+                  onClose={handleClose2}
+                  onClick={handleClose2}
                   PaperProps={{
                     elevation: 0,
                     sx: {
@@ -286,7 +291,9 @@ export default function Dashboard() {
                     Tài khoản của tôi
                   </MenuItem>
                   <Divider />
-                  <MenuItem onClick={handleClose} style={{ color: "#ff5028" }}>
+                  <MenuItem 
+                  onClick={handleClose} 
+                  style={{ color: "#ff5028" }}>
                     <ListItemIcon>
                       <Logout fontSize="small" style={{ color: "#ff5028" }} />
                     </ListItemIcon>
@@ -295,7 +302,7 @@ export default function Dashboard() {
                 </Menu>
                 <img
                   className="profileImg"
-                  src={`${serverURL}/images/${admin[0].picture}`}
+                  src={`${serverURL}/images/${admin[0]?.picture}` || ""}
                   style={{ width: 40, height: 40, borderRadius: "50%" }}
                   onClick={handleClick}
                 />

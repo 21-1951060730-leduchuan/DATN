@@ -18,12 +18,7 @@ export default function GridPostList(props) {
   var navigate = useNavigate();
   const [liked, setLiked] = useState([]);
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
-  const sortedPostList = props.post.sort((a, b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-    return dateB - dateA;
-  });
+  console.log(props?.blogs);
 
   const months = [
     "Tháng 1",
@@ -75,70 +70,145 @@ export default function GridPostList(props) {
         spacing={1}
         style={{ padding: "0 1% 3%", margin: 0, height: "100%", width: "100%" }}
       >
-        {sortedPostList.map((item, index) => {
-          var date = new Date(item.date);
-          var year = date.getFullYear();
-          var month = date.getMonth() + 1;
-          var day = date.getDate();
+        {props?.blogs?.length > 0 ? (
+          <>
+            {props?.blogs?.map((item, index) => {
+              var date = new Date(item.date);
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var day = date.getDate();
 
-          var body = item.body;
+              var body = item.body;
 
-          const removeHtmlTags = (input) => {
-            return input.replace(/<[^>]*>/g, "");
-          };
-          const plainText = removeHtmlTags(body);
+              const removeHtmlTags = (input) => {
+                return input.replace(/<[^>]*>/g, "");
+              };
+              const plainText = removeHtmlTags(body);
 
-          return (
-            <Grid item md={6} className="ui-post-card-grid">
-              <div
-                key={index}
-                className="ui-post-card"
-                style={{ cursor: "pointer", overflow: "hidden" }}
-              >
-                <div className="ui-like-div">
-                  <Checkbox
-                    {...label}
-                    icon={
-                      <FavoriteBorder style={{ color: "rgb(220, 122, 122" }} />
-                    }
-                    checkedIcon={
-                      <Favorite style={{ color: "rgb(255, 122, 122" }} />
-                    }
-                    onClick={() => handleLike(item._id)}
-                    checked={
-                      liked.filter((liked) => liked.postId === item._id)
-                        .length > 0
-                    }
-                  />
-                </div>
-                <div onClick={() => handlePostClick(item)}>
-                  <CardMedia
-                    className="ui-post-img"
-                    component="img"
-                    height="250"
-                    image={`${serverURL}/images/${item.poster}`}
-                    alt={item.title}
-                  />
-                  <h3 className="ui-post-heading">{item.title}</h3>
-                  <div className="ui-post-meta">
-                    <span className="highlight">{`${
-                      months[month - 1]
-                    } ${day}, ${year}`}</span>{" "}
-                    Trong
-                    <span className="highlight"> {item.category} </span> bởi
-                    <span className="highlight">
-                      {item.authorData[0].name}{" "}
-                    </span>
+              return (
+                <Grid item md={6} className="ui-post-card-grid">
+                  <div
+                    key={index}
+                    className="ui-post-card"
+                    style={{ cursor: "pointer", overflow: "hidden" }}
+                  >
+                    <div className="ui-like-div">
+                      <Checkbox
+                        {...label}
+                        icon={
+                          <FavoriteBorder
+                            style={{ color: "rgb(220, 122, 122" }}
+                          />
+                        }
+                        checkedIcon={
+                          <Favorite style={{ color: "rgb(255, 122, 122" }} />
+                        }
+                        onClick={() => handleLike(item._id)}
+                        checked={
+                          liked.filter((liked) => liked.postId === item._id)
+                            .length > 0
+                        }
+                      />
+                    </div>
+                    <div onClick={() => handlePostClick(item)}>
+                      <CardMedia
+                        className="ui-post-img"
+                        component="img"
+                        height="250"
+                        image={`${serverURL}/images/${item.poster}`}
+                        alt={item.title}
+                      />
+                      <h3 className="ui-post-heading">{item.title}</h3>
+                      <div className="ui-post-meta">
+                        <span className="highlight">{`${
+                          months[month - 1]
+                        } ${day}, ${year}`}</span>{" "}
+                        Trong
+                        <span className="highlight"> {item.category} </span> bởi
+                        <span className="highlight">
+                          {/* {item.authorData[0].name}{" "} */}
+                        </span>
+                      </div>
+                      <Typography className="ui-post-meta-para">
+                        {/* {parse(body.substring(0, 170))} */}
+                        {plainText.substring(0, 170)}...
+                      </Typography>
+                    </div>
                   </div>
-                  <Typography className="ui-post-meta-para">
-                    {/* {parse(body.substring(0, 170))} */}
-                    {plainText.substring(0, 170)}...
-                  </Typography>
-                </div>
-              </div>
-            </Grid>
-          );
-        })}
+                </Grid>
+              );
+            })}
+          </>
+        ) : (
+          <>
+            {props?.post?.map((item, index) => {
+              var date = new Date(item.date);
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var day = date.getDate();
+
+              var body = item.body;
+
+              const removeHtmlTags = (input) => {
+                return input.replace(/<[^>]*>/g, "");
+              };
+              const plainText = removeHtmlTags(body);
+
+              return (
+                <Grid item md={6} className="ui-post-card-grid">
+                  <div
+                    key={index}
+                    className="ui-post-card"
+                    style={{ cursor: "pointer", overflow: "hidden" }}
+                  >
+                    <div className="ui-like-div">
+                      <Checkbox
+                        {...label}
+                        icon={
+                          <FavoriteBorder
+                            style={{ color: "rgb(220, 122, 122" }}
+                          />
+                        }
+                        checkedIcon={
+                          <Favorite style={{ color: "rgb(255, 122, 122" }} />
+                        }
+                        onClick={() => handleLike(item._id)}
+                        checked={
+                          liked.filter((liked) => liked.postId === item._id)
+                            .length > 0
+                        }
+                      />
+                    </div>
+                    <div onClick={() => handlePostClick(item)}>
+                      <CardMedia
+                        className="ui-post-img"
+                        component="img"
+                        height="250"
+                        image={`${serverURL}/images/${item.poster}`}
+                        alt={item.title}
+                      />
+                      <h3 className="ui-post-heading">{item.title}</h3>
+                      <div className="ui-post-meta">
+                        <span className="highlight">{`${
+                          months[month - 1]
+                        } ${day}, ${year}`}</span>{" "}
+                        Trong
+                        <span className="highlight"> {item.category} </span> bởi
+                        <span className="highlight">
+                          {item.authorData[0].name}{" "}
+                        </span>
+                      </div>
+                      <Typography className="ui-post-meta-para">
+                        {/* {parse(body.substring(0, 170))} */}
+                        {plainText.substring(0, 170)}...
+                      </Typography>
+                    </div>
+                  </div>
+                </Grid>
+              );
+            })}
+          </>
+        )}
       </Grid>
     );
   };

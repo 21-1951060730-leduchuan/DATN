@@ -9,6 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { getData, serverURL } from "../../../Services/FetchNodeServices";
 import { Link, useNavigate } from "react-router-dom";
+import { Typography } from "@material-ui/core";
 
 export default function MenuComponent(props) {
   const theme = useTheme();
@@ -16,13 +17,17 @@ export default function MenuComponent(props) {
   const matches_sm = useMediaQuery(theme.breakpoints.down("sm"));
   const matches_md = useMediaQuery(theme.breakpoints.down("md"));
   const [category, setCategory] = useState([]);
-
+  const user = JSON.parse(localStorage.getItem("Admin"));
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleClose = () => {
-    setAnchorEl(null);
+    if (window.confirm("Are you sure you want to close?")) {
+      localStorage.removeItem("Admin");
+      setAnchorEl(null);
+      window.location.reload();
+    }
   };
 
   const fetchCategory = async () => {
@@ -59,7 +64,7 @@ export default function MenuComponent(props) {
                     display: "flex",
                     alignItems: "center",
                     margin: "10% 0",
-                    textDecoration: "none"
+                    textDecoration: "none",
                   }}
                 >
                   <img
@@ -139,10 +144,54 @@ export default function MenuComponent(props) {
       title: "Liên hệ",
       link: "/contact",
     },
+    {
+      title: "Đăng ký",
+      link: "/register",
+    },
+    {
+      title: "Đăng nhập",
+      link: "/login",
+    },
+  ];
+
+  const loginMenuItems = [
+    {
+      title: "Về chúng tôi",
+      link: "/about",
+    },
+    {
+      title: "Liên hệ",
+      link: "/contact",
+    },
   ];
 
   const showStaticMenuItems = () => {
     return staticMenuItems.map((item, i) => {
+      return (
+        <div>
+          <Button
+            style={{
+              color: "black",
+              fontWeight: 500,
+              fontFamily: "Inter",
+              fontSize: 17,
+              textTransform: "capitalize",
+              padding: "1% 0",
+              width: 130,
+            }}
+            onClick={() => navigation(item.link)}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <p style={{ fontSize: 18, margin: 0 }}>{item.title}</p>
+            </div>
+          </Button>
+        </div>
+      );
+    });
+  };
+
+  const showStaticLoginMenuItems = () => {
+    return loginMenuItems.map((item, i) => {
       return (
         <div>
           <Button
@@ -186,7 +235,28 @@ export default function MenuComponent(props) {
                 }}
               >
                 {showMenuItems()}
-                {showStaticMenuItems()}
+                {user ? showStaticLoginMenuItems() : showStaticMenuItems()}
+                <Typography
+                  style={{
+                    color: "black",
+                    fontSize: "20px",
+                  }}
+                >
+                  {user?.name}
+                </Typography>
+                {user && (
+                  <div
+                    onClick={handleClose}
+                    style={{
+                      color: "black",
+                      fontSize: "18px",
+                      minWidth: "100px",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Đăng xuất
+                  </div>
+                )}
 
                 <Menu
                   PaperProps={{

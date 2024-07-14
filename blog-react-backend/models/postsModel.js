@@ -19,7 +19,6 @@ var postSchema = mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "authors",
-    required: false,
   },
   date: {
     type: Date,
@@ -38,8 +37,8 @@ var postSchema = mongoose.Schema({
       comment: { type: String, required: true },
       fullName: { type: String, required: true },
       email: { type: String, required: true },
-      title: { type: String, required: true},
-      status: {type: Number, required: true, default: 0}
+      title: { type: String, required: true },
+      status: { type: Number, required: true, default: 0 },
     },
   ],
 });

@@ -48,7 +48,7 @@ export default function PostComponent(props) {
   var post = props.post;
   var navigate = useNavigate();
   const classes = useStyles();
-
+  const user = JSON.parse(localStorage.getItem("Admin"));
   const [postTags, setPostTags] = useState([]);
   const [dataPush, setDataPush] = useState({
     postId: post._id,
@@ -74,38 +74,6 @@ export default function PostComponent(props) {
           Thể loại:{" "}
         </h3>
         {getDatabaseCategory.map((item, i) => {
-          return (
-            <div
-              className="ui-sidebar-category"
-              style={{
-                padding: "1% 3%",
-                margin: 0,
-                marginRight: "2%",
-                background: "white",
-                border: "2px solid #0069FF",
-                marginTop: "1%",
-              }}
-            >
-              {item}
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
-
-  const tagsArrayFunc = () => {
-    const subsetOfTags = postTags.slice(0, 13);
-    const uniqueTags = [];
-    subsetOfTags.forEach((item) => {
-      if (!uniqueTags.includes(item)) {
-        uniqueTags.push(item);
-      }
-    });
-    return (
-      <div className="ui-category-div" style={{ margin: "2% 0" }}>
-        <h3 style={{ fontWeight: 600, fontSize: "23px", margin: 0 }}>Tags: </h3>
-        {uniqueTags.map((item, i) => {
           return (
             <div
               className="ui-sidebar-category"
@@ -292,22 +260,6 @@ export default function PostComponent(props) {
     );
   };
 
-  const authorDiv = () => {
-    return (
-      <div style={{ position: "sticky", top: 20, zIndex: 100 }}>
-        <center>
-          <img
-            src={`${serverURL}/images/${post.authorData[0].picture}`}
-            style={{ width: 150, borderRadius: "50%" }}
-          />
-          <h3 style={{ fontWeight: 500, fontSize: 23 }}>
-            {post.authorData[0].name}
-          </h3>
-        </center>
-      </div>
-    );
-  };
-
   const share = () => {
     return (
       <div
@@ -370,47 +322,42 @@ export default function PostComponent(props) {
     return (
       <>
         <form onSubmit={handleComment}>
-          <TextField
-            fullWidth
-            label="Họ và tên"
-            id="outlined-start-adornment"
-            style={{ marginTop: 10 }}
-            sx={{ m: 1, width: "25ch" }}
-            required
-            name="fullName"
-            value={dataPush.fullName}
-            onChange={handleOnchange}
-          />
-          <TextField
-            fullWidth
-            label="Email"
-            id="outlined-start-adornment"
-            style={{ marginTop: 10 }}
-            sx={{ m: 1, width: "25ch" }}
-            required
-            name="email"
-            value={dataPush.email}
-            onChange={handleOnchange}
-          />
-          <TextField
-            fullWidth
-            label="Bình luận"
-            id="fullWidth"
-            style={{ marginTop: 10 }}
-            sx={{ m: 1, width: "25ch" }}
-            required
-            name="comment"
-            value={dataPush.comment}
-            onChange={handleOnchange}
-          />
-          <Button
-            variant="contained"
-            color="success"
-            type="submit"
-            style={{ marginTop: 10 }}
-          >
-            Gửi
-          </Button>
+          {user && (
+            <>
+              <div>
+                <TextField
+                  fullWidth
+                  label="Họ và tên"
+                  id="outlined-start-adornment"
+                  style={{ marginTop: 10 }}
+                  sx={{ m: 1, width: "25ch" }}
+                  required
+                  name="fullName"
+                  onChange={handleOnchange}
+                  defaultValue={user?.name}
+                />
+                <TextField
+                  fullWidth
+                  label="Bình luận"
+                  id="fullWidth"
+                  style={{ marginTop: 10 }}
+                  sx={{ m: 1, width: "25ch" }}
+                  required
+                  name="comment"
+                  value={dataPush.comment}
+                  onChange={handleOnchange}
+                />
+                <Button
+                  variant="contained"
+                  color="success"
+                  type="submit"
+                  style={{ marginTop: 10 }}
+                >
+                  Gửi
+                </Button>
+              </div>
+            </>
+          )}
         </form>
         {comments.map((item) => {
           if (item.status !== 0) {

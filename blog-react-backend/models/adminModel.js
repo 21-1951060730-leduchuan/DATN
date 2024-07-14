@@ -1,25 +1,34 @@
-var mongoose = require('mongoose')
-var adminSchema = mongoose.Schema({
+var mongoose = require("mongoose");
+var adminSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     email: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     phone: {
-        type: String,
-        required: false
+      type: String,
+      default: "",
     },
     password: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     picture: {
-        type: String,
-        required: true
-    }
-})
+      type: String,
+      default: "",
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = mongoose.model("admin", adminSchema)
+module.exports = mongoose.model("admin", adminSchema);
