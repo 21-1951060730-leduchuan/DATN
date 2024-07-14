@@ -25,11 +25,13 @@ export default function MenuComponent(props) {
   const handleClose = () => {
     if (window.confirm("Are you sure you want to close?")) {
       localStorage.removeItem("Admin");
-      setAnchorEl(null);
+      // setAnchorEl(null);
       window.location.reload();
     }
   };
-
+const handleClose2 = () => {
+      setAnchorEl(null);
+}
   const fetchCategory = async () => {
     var response = await getData("blog/fetch-category");
     setCategory(response.categoryData);
@@ -44,7 +46,7 @@ export default function MenuComponent(props) {
       <div>
         <Grid container spacing={1} style={{ padding: "3% 5%" }}>
           <CloseIcon
-            onClick={handleClose}
+            onClick={handleClose2}
             fontSize="large"
             style={{
               position: "absolute",
@@ -246,7 +248,7 @@ export default function MenuComponent(props) {
                 </Typography>
                 {user && (
                   <div
-                    onClick={handleClose}
+                    onClick={handleClose2}
                     style={{
                       color: "black",
                       fontSize: "18px",
@@ -275,7 +277,7 @@ export default function MenuComponent(props) {
                   }}
                   anchorEl={anchorEl}
                   open={open}
-                  onClose={handleClose}
+                  onClose={handleClose2}
                   MenuListProps={{ "aria-labelledby": "basic-button" }}
                 >
                   {selectedItem ? selectedItem.content : <>:</>}
